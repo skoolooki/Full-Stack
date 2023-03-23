@@ -14,17 +14,29 @@ const Stats = (props) => {
   if (total === 0) {
     average = 0
   }
+  const positive = props.good / total * 100 
+  if (total === 0){
+    return (
+      <p>No feedback given yet</p>
+    )
+  }
   return (
     <div>
-    <p>good: {props.good}</p> 
-    <p>neutral: {props.neutral}</p> 
-    <p>bad: {props.bad}</p>
-    <p>total: {total}</p>
-    <p>average: {average}</p>
+    <StatisticLine name="good" value={props.good}/>
+    <StatisticLine name="neutral" value={props.neutral}/>
+    <StatisticLine name="bad" value={props.bad}/>
+    <StatisticLine name="total" value={total}/>
+    <StatisticLine name="average" value={average}/>
+    <StatisticLine name="positive" value={positive}/>
     </div> 
   )
 }
 
+const StatisticLine = (props) => {
+  return (
+    <p>{props.name}: {props.value}</p>
+  )
+}
 
 const App = () => {
   // tallenna napit omaan tilaansa
