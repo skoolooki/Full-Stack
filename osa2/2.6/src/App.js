@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import noteService from './service'
 
 const People = (props) => {
   return (
@@ -46,8 +46,8 @@ const App = () => {
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    noteService
+      .getAll()
       .then(response => {
         setPersons(response.data)
       })
@@ -70,9 +70,11 @@ const App = () => {
       name: newName,
       number: newNumber
       }
-      setPersons(persons.concat(newObject))
-      setNewName("")
-      setNewNumber("")
+      noteService.create(newObject).then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName("")
+        setNewNumber("")
+      })
       same = false
     }
 
