@@ -16,4 +16,9 @@ const update = (id, newObject) => {
   return request
 }
 
-export default {getAll, create, update}
+const poista = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`)
+  return request
+}
+
+export default {getAll, create, update, poista}

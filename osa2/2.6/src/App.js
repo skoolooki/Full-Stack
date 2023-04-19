@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import noteService from './service'
+import {v1 as uuidv1} from 'uuid'
 
 const People = (props) => {
   return (
@@ -7,7 +8,7 @@ const People = (props) => {
       {props.data.filter((item) => {
         return props.search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(props.search)
       }).map(person =>
-        <p key={person.name}>{person.name} {person.number}</p>
+        <p key={person.name}>{person.name} {person.number} <button onClick={() => props.deleteNumber(person.id)}>Delete</button></p>
       )}
     </div>
   )
@@ -51,7 +52,7 @@ const App = () => {
       .then(response => {
         setPersons(response.data)
       })
-  }, [])
+  })
 
   const handleNewName = (event) => {
     event.preventDefault()
@@ -67,8 +68,9 @@ const App = () => {
       window.alert(`This name or number is already added to phonebook`)
     } else {
       const newObject = {
-      name: newName,
-      number: newNumber
+        name: newName,
+        number: newNumber,
+        id: uuidv1()
       }
       noteService.create(newObject).then(response => {
         setPersons(persons.concat(response.data))
@@ -78,6 +80,10 @@ const App = () => {
       same = false
     }
 
+  }
+
+  const deleteNumber = (id) => {
+    noteService.poista(id)
   }
 
   const handleFilterChange = (event) => {
@@ -108,7 +114,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <People data={persons} search={search}/>
+      <People data={persons} search={search} deleteNumber={deleteNumber}/>
     </div>
   )
 
