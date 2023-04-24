@@ -1,0 +1,29 @@
+.Emessage {
+    color: rgb(243, 17, 17);
+    font-size: 20px;
+}
+
+.EmessageDiv {
+    background: rgb(99, 63, 63);
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 30%;
+}
+
+.Smessage {
+    color: green;
+    font-size: 20px;
+}
+
+.SmessageDiv {
+    background: rgb(119, 160, 138);
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 30%;
+}

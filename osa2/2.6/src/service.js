@@ -6,6 +6,12 @@ const getAll = () => {
   return request
 }
 
+const getOne = async (id) => {
+  const request = await axios.get(`${baseUrl}/${id}`)
+  console.log(request.data.name)
+  return request.data.name
+}
+
 const create = (newObject) => {
   const request = axios.post(baseUrl, newObject)
   return request
@@ -21,4 +27,4 @@ const poista = (id) => {
   return request
 }
 
-export default {getAll, create, update, poista}
+export default {getAll, getOne, create, update, poista}

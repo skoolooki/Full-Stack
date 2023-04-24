@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import noteService from './service'
 import {v1 as uuidv1} from 'uuid'
 
+
 const People = (props) => {
   return (
     <div>
@@ -40,11 +41,38 @@ const Personform = (props) => {
   )
 }
 
+
+const ErrorMessage = (props) => {
+  if (props.message === "") {
+    return null
+  }
+
+  return (
+    <div className="EmessageDiv">
+      <h1 className="Emessage">{props.message}</h1>
+    </div>
+  )
+}
+
+const SuccessMessage = (props) => {
+  if (props.message === "") {
+    return null
+  }
+
+  return (
+    <div className="SmessageDiv">
+      <h1 className="Smessage">{props.message}</h1>
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
   const [search, setSearch] = useState("")
+  const [errorMessage, setEMessage] = useState("")
+  const [successMessage, setSMessage] = useState("")
 
   useEffect(() => {
     noteService
@@ -74,36 +102,50 @@ const App = () => {
       }
       noteService.create(newObject).then(response => {
         setPersons(persons.concat(response.data))
-        setNewName("")
-        setNewNumber("")
       })
+
+      setSMessage(`Added ${newName}`)
+
+      setTimeout(() => {
+        setSMessage("")
+      }, 2500);
+
+      setNewName("")
+      setNewNumber("")
       same = false
     }
 
   }
 
-  const deleteNumber = (id) => {
+  const deleteNumber = async (id) => {
+    let name = await noteService.getOne(id)
+    console.log(name)
     noteService.poista(id)
+
+    setEMessage(`Deleted ${name}`)
+
+    setTimeout(() => {
+      setEMessage("")
+    }, 2500);
   }
 
   const handleFilterChange = (event) => {
     setSearch(event.target.value)
-    console.log(event.target.value)
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
-    console.log(event.target.value)
   }
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
-    console.log(event.target.value)
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <ErrorMessage message={errorMessage}/>
+      <SuccessMessage message={successMessage}/>
       <Filter handleFilterChange={handleFilterChange} search={search}/>
       <h2>add new name</h2>
       <Personform 
