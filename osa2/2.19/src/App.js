@@ -4,20 +4,48 @@ import axios from "axios";
 
 // Filter the list 
 const Filter = (props) => {
-  return (
-    <div>
-      <form className="filter">
-        find countries: <input onChange={props.searchData} type="text"/>
-      </form>
-      <div className="countries">
-        {props.data.filter((item) => {
-          return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
-        }).map(country =>
-          <p key={country.name.common}>{country.name.common} <button>Show</button></p>
-        )}
-      </div>
-    </div>
+  let countryCounter = 0
+  props.data.filter((item) => {
+    return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
+  }).map(country => 
+    countryCounter++
   )
+
+  if (countryCounter > 10){
+    return (
+      <div>
+        <form className="filter">
+          find countries: <input onChange={props.searchData} type="text"/>
+        </form>
+        <div className="countries">
+          <p>Too many matches, specify another filter</p>
+        </div>
+      </div>
+    )
+  } else if (countryCounter === 1) {
+    return (
+      <div>
+        <form className="filter">
+          find countries: <input onChange={props.searchData} type="text"/>
+        </form>
+      </div>
+    )
+  } else if (countryCounter <= 10) {
+    return (
+      <div>
+        <form className="filter">
+          find countries: <input onChange={props.searchData} type="text"/>
+        </form>
+        <div className="countries">
+          {props.data.filter((item) => {
+            return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
+          }).map(country =>
+            <p key={country.name.common}>{country.name.common} <button>Show</button></p>
+          )}
+        </div>
+    </div>
+    )
+  }
 }
 
 
