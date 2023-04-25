@@ -28,6 +28,19 @@ const Filter = (props) => {
         <form className="filter">
           find countries: <input onChange={props.searchData} type="text"/>
         </form>
+        <div className="countries">
+          {props.data.filter((item) => {
+            return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
+          }).map(country =>
+            <div key={country.name.common}>
+              <p key={country.name.common}>{country.name.common} <button onClick={() => props.showDetails(country.capital)}>Show</button></p>
+              <Information 
+                name={country.name.common}
+                capital={country.capital}
+              />
+            </div>
+          )}
+        </div>
       </div>
     )
   } else if (countryCounter <= 10) {
@@ -40,7 +53,7 @@ const Filter = (props) => {
           {props.data.filter((item) => {
             return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
           }).map(country =>
-            <p key={country.name.common}>{country.name.common} <button>Show</button></p>
+            <p key={country.name.common}>{country.name.common} <button onClick={() => props.showDetails(country.capital)}>Show</button></p>
           )}
         </div>
     </div>
@@ -48,6 +61,9 @@ const Filter = (props) => {
   }
 }
 
+const Information = (props) => {
+
+}
 
 const App = () => {
   const [list, setList] = useState([])
@@ -64,9 +80,13 @@ const App = () => {
     setSearch(event.target.value)
   }
 
-  const showDetails = () => {
-    
+  const showDetails = (props) => {
+    console.log(list)
+    props.forEach(capital => {
+      console.log(capital)
+    });
   }
+
  
   return (
     <div>
