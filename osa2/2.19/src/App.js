@@ -4,6 +4,8 @@ import axios from "axios";
 
 // Filter the list 
 const Filter = (props) => {
+
+
   let countryCounter = 0
   props.data.filter((item) => {
     return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
@@ -33,11 +35,7 @@ const Filter = (props) => {
             return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
           }).map(country =>
             <div key={country.name.common}>
-              <p key={country.name.common}>{country.name.common} <button onClick={() => props.showDetails(country.capital)}>Show</button></p>
-              <Information 
-                name={country.name.common}
-                capital={country.capital}
-              />
+              <Information country={country}/>
             </div>
           )}
         </div>
@@ -53,7 +51,7 @@ const Filter = (props) => {
           {props.data.filter((item) => {
             return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
           }).map(country =>
-            <p key={country.name.common}>{country.name.common} <button onClick={() => props.showDetails(country.capital)}>Show</button></p>
+            <p key={country.name.common}>{country.name.common} <button onClick={() => props.showDetails(country)}>Show</button></p>
           )}
         </div>
     </div>
@@ -61,8 +59,24 @@ const Filter = (props) => {
   }
 }
 
-const Information = (props) => {
+const Information = ({country}) => {
+  return (
+    <div>
+      <h2>{country.name.common}</h2>
+      <div>
+        Capital: {country.capital.map(capital => 
+          <li key={capital}>{capital}</li>
+        )}
+        Area: {country.area}
+      </div>
+      <p style={{fontWeight: "bold"}}>Languages:</p>
+      {Object.values(country.languages).map(language =>
+        <li key={language}>{language}</li>
+      )}
 
+      <img src={country.flags.png} alt="flag" style={{ width: "auto", height: 150, marginTop: 30 }}></img>
+    </div> 
+  )
 }
 
 const App = () => {
@@ -82,9 +96,14 @@ const App = () => {
 
   const showDetails = (props) => {
     console.log(list)
-    props.forEach(capital => {
+    console.log(props.area)
+    props.capital.forEach(capital => {
       console.log(capital)
     });
+    Object.values(props.languages).forEach(language => {
+      console.log(language)
+    })
+    console.log(props.flags.png)
   }
 
  
