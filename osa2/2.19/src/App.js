@@ -51,7 +51,7 @@ const Filter = (props) => {
           {props.data.filter((item) => {
             return props.search.toLowerCase() === "" ? item : item.name.common.toLowerCase().includes(props.search)
           }).map(country =>
-            <p key={country.name.common}>{country.name.common} <button onClick={() => props.showDetails(country)}>Show</button></p>
+            <p key={country.name.common}>{country.name.common}</p>
           )}
         </div>
     </div>
