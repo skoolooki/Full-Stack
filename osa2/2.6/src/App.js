@@ -90,7 +90,6 @@ const App = () => {
       if (person.name === newName || person.number === newNumber) {
         same = true
       }
-       
     })
     if (same) {
       window.alert(`This name or number is already added to phonebook`)
