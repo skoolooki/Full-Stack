@@ -81,14 +81,13 @@ app.post('/api/persons', (request, response) => {
         })
     } else {
         same = false
-        morgan(':method :url :status :res[content-length] - :response-time ms :postData')
         persons = persons.concat(newPerson)
         const nperson = new nPerson({
             name: body.name,
             number: body.number
         })
         nperson.save().then(result => {
-            console.log("person saved")
+            response.json(result)
         })
         response.json(newPerson)
     }
