@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require("express")
 const app = express()
 const morgan = require("morgan")
 const cors = require('cors')
+const nPerson = require('./models/note')
 
 app.use(cors())
 app.use(express.json())
@@ -25,9 +27,10 @@ let persons = [
     
 ]
 // Persons in json
-app.get('/api/persons', (req, res) => {
-    morgan(':method :url :status :res[content-length] - :response-time ms')
-    res.json(persons)
+app.get('/api/persons', (request, response) => {
+    nPerson.find({}).then(persons => {
+        response.json(persons)
+    })
 })
 
 // Yksittäinen person
@@ -80,6 +83,13 @@ app.post('/api/persons', (request, response) => {
         same = false
         morgan(':method :url :status :res[content-length] - :response-time ms :postData')
         persons = persons.concat(newPerson)
+        const nperson = new nPerson({
+            name: body.name,
+            number: body.number
+        })
+        nperson.save().then(result => {
+            console.log("person saved")
+        })
         response.json(newPerson)
     }
 })
@@ -104,7 +114,7 @@ app.get('/info', (req, res) => {
     `)
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
