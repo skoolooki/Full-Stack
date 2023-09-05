@@ -8,6 +8,8 @@ const nPerson = require('./models/note')
 app.use(cors())
 app.use(express.json())
 app.use(morgan("combined"))
+
+
 let persons = [
     {
         id: 1,
