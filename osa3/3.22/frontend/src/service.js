@@ -23,8 +23,8 @@ const update = (id, newObject) => {
     return request
 }
 
-const poista = async (id) => {
-    const request = await axios.delete(`${baseUrl}/${id}`)
+const poista = (id) => {
+    const request = axios.delete(`${baseUrl}/${id}`)
     console.log(id)
     console.log(request)
     return request

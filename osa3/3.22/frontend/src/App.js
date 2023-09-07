@@ -81,9 +81,11 @@ const App = () => {
       })
   }, [])
 
+  // Adding new phone number
   const handleNewName = (event) => {
     event.preventDefault()
 
+    // Checking if the new name that is about to get added, is already in the list
     let same = false
     persons.forEach((person) => {
       if (person.name === newName || person.number === newNumber) {
@@ -110,17 +112,28 @@ const App = () => {
       setNewName("")
       setNewNumber("")
       same = false
-      window.location.reload(false);
     }
 
   }
 
+  // Deleting a phone number
   const deleteNumber = async (id) => {
     let name = await noteService.getOne(id)
-    // console.log(name)
-    // console.log(id)
-    noteService.poista(id)
+    
+    // Deleting the name from Frontend array (tän ois voinut tehdä paremmin)
+    let idPlaceholder = id
+    let index = 0
+    persons.forEach(person => {
+      if (person.id == idPlaceholder) {
+        persons.splice(index, 1)
+        console.log(persons)
+        index = 0
+      } else {
+        index++
+      }
+    })
 
+    noteService.poista(id)
     setEMessage(`Deleted ${name}`)
 
     setTimeout(() => {
