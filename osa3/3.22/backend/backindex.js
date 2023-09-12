@@ -4,9 +4,9 @@ const app = express()
 const cors = require('cors')
 const phonePersons = require('./modules/mongoose.js')
 
+app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
-app.use(requestLogger)
 
 // Persons in json
 app.get('/api/persons', (request, response) => {
@@ -19,14 +19,19 @@ app.get('/api/persons', (request, response) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body
   
+  if (body.content === undefined) {
+    return response.status(400).json({ error: "content missing"})
+  }
+
   const person = new phonePersons ({
     name: body.name,
-    number: body.number
+    number: body.number,
+    required: true
   })
 
   person.save().then(savedPerson => {
     response.json(savedPerson)
-  })
+  }).catch(error => next(error))
 })
 
 // 1 Person
