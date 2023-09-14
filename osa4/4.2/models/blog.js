@@ -14,3 +14,5 @@ blogSchema.set('toJSON', {
         delete returnedObject.__v
     }
 })
+
+module.exports = mongoose.Model("Blog", blogSchema)
