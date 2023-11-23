@@ -22,16 +22,19 @@ blogsRouter.get("/:id", async (request, response, next) => {
 blogsRouter.post("/", async (request, response, next) => {
     const body = request.body
 
-    const blog = new Blog({
-        title: body.title,
-        author: body.author,
-        url: body.url,
-        likes: body.likes
-    })
+    const user = await Blog.findById(body.userId)
 
-    blog.save().then(savedBlog => {
-        response.status(201).json(savedBlog)
-    }).catch(error => next(error))
+    const blog = new Blog({
+      content: body.content,
+      important: body.important === undefined ? false : body.important,
+      user: user._id
+    })
+  
+    const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
+  
+    response.json(savedBlog)
 })
 
 //Delete
