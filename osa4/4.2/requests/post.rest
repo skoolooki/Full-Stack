@@ -1,9 +1,8 @@
-GET http://localhost:3001/api/users
+POST http://localhost:3001/api/login
 Content-Type: application/json
 
-# {
-#     "content": "About my fyodor",
-#     "important": true,
-#     "userId": "655f6bc3ab8e6d56a9b14d16"
-# }
+{
+    "username": "thejoku",
+    "password": "thejoku123"
+}
 

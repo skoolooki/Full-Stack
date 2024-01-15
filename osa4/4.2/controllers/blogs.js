@@ -1,6 +1,16 @@
 const blogsRouter = require("express").Router()
+const jwt = require('jsonwebtoken')
 const Blog = require("../models/blog")
 const User = require('../models/user')
+
+// Getting a token
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')) {
+      return authorization.replace('Bearer ', '')
+    }
+    return null
+}
 
 //Get
 blogsRouter.get("/", async (request, response) => {
