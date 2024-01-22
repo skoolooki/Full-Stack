@@ -7,6 +7,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
+  const [newBlog, setNewBlog] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const App = () => {
       )
 
       setUser(user)
+      blogService.setToken(user.token)
       setUsername('')
       setPassword('')
       console.log(user)
@@ -74,6 +76,34 @@ const App = () => {
     </form>      
   )
 
+  const handleBlogChange = (event) => {
+    setNewBlog(event.target.value)
+  }
+
+  const addBlog = (event) => {
+    event.preventDefault(
+    )
+    const blogObject = {
+      content: newBlog,
+      important: false
+    }
+  
+    blogService.create(blogObject).then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setNewBlog('')
+    })
+  }
+
+  const blogForm = () => (
+    <form onSubmit={addBlog}>
+      <input
+        value={newBlog}
+        onChange={handleBlogChange}
+      />
+      <button type="submit">save</button>
+    </form>  
+  )
+
   // Rendering
 
   if (user === null) {
@@ -85,6 +115,8 @@ const App = () => {
   return (
     <div>
       <p>{user.name} logged in</p>
+      <h1>Create new blog</h1>
+      {blogForm()}
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog}/>
