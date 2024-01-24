@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react'
+// Components
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
+// Services
 import blogService from './services/blogs'
 import loginService from './services/login'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -21,9 +26,11 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
+  // Login events
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
@@ -75,19 +82,11 @@ const App = () => {
       <button type="submit">login</button>
     </form>      
   )
-
-  const handleBlogChange = (event) => {
-    setNewBlog(event.target.value)
-  }
-
-  const addBlog = (event) => {
-    event.preventDefault(
-    )
-    const blogObject = {
-      content: newBlog,
-      important: false
-    }
+  // -----------------------
   
+
+  // Creating new blog and BlogForm
+  const addBlog = (blogObject) => {
     blogService.create(blogObject).then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setNewBlog('')
@@ -95,17 +94,13 @@ const App = () => {
   }
 
   const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <input
-        value={newBlog}
-        onChange={handleBlogChange}
-      />
-      <button type="submit">save</button>
-    </form>  
+    <Togglable buttonLabel="Create new blog">
+      <BlogForm createBlog={addBlog}/>
+    </Togglable>
   )
+  // -----------------------
 
   // Rendering
-
   if (user === null) {
     return (
       loginForm()
@@ -115,12 +110,16 @@ const App = () => {
   return (
     <div>
       <p>{user.name} logged in</p>
-      <h1>Create new blog</h1>
-      {blogForm()}
+
+      <div>
+        {blogForm()}
+      </div>
+
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog}/>
       )}
+
       <button onClick={logoutFunction}>Logout</button>
     </div>
   )
