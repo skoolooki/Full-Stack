@@ -7,6 +7,7 @@ const Blogform = ({ createBlog }) => {
       event.preventDefault()
       createBlog({
         content: newBlog,
+        likes: 0,
         important: true
       })
   

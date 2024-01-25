@@ -42,6 +42,7 @@ blogsRouter.post("/", async (request, response, next) => {
     const blog = new Blog({
       content: body.content,
       important: body.important === undefined ? false : body.important,
+      likes: 0,
       user: user._id
     })
   
