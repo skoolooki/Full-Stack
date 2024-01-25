@@ -87,8 +87,8 @@ const App = () => {
 
   // Creating new blog and BlogForm
   const addBlog = (blogObject) => {
-    console.log(blogObject)
     blogService.create(blogObject).then(returnedBlog => {
+        console.log(returnedBlog)
         setBlogs(blogs.concat(returnedBlog))
         setNewBlog('')
     })
