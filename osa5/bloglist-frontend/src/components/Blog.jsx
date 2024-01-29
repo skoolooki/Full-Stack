@@ -20,7 +20,13 @@ const Blog = ({ blog }) => {
   }
 
   const likeFunction = () => {
+    const blogId = blog.id
+    const updatedBlog = blog
+    updatedBlog.likes =+ 1
 
+    console.log(blogId, blog)
+    
+    blogService.addLike(blogId, updatedBlog)
   }
   
   return (

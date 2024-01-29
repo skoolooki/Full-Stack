@@ -1,4 +1,5 @@
 const blogsRouter = require("express").Router()
+const { response } = require("express")
 const Blog = require("../models/blog")
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
@@ -62,5 +63,22 @@ blogsRouter.delete("/:id", (request, response, next) => {
 
 
 //Update
+
+blogsRouter.put("/:id", (request, response, next) => {
+    const body = request.body
+
+    const blog = {
+        content: body.content,
+        important: body.important,
+        likes: body.likes,
+        user: body.user,    
+        id: body.id
+    }
+
+    Blog.findByIdAndUpdate(request.params.id, note, { new: true })
+    .then(updatedBlog => {
+      response.json(updatedBlog)
+    }).catch(error => next(error))
+})
 
 module.exports = blogsRouter
