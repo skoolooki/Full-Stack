@@ -71,11 +71,10 @@ blogsRouter.put("/:id", (request, response, next) => {
         content: body.content,
         important: body.important,
         likes: body.likes,
-        user: body.user,    
-        id: body.id
+        user: body.user.id
     }
 
-    Blog.findByIdAndUpdate(request.params.id, note, { new: true })
+    Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
     .then(updatedBlog => {
       response.json(updatedBlog)
     }).catch(error => next(error))

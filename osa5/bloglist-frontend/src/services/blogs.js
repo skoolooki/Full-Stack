@@ -27,4 +27,8 @@ const addLike = (id, updatedBlog) => {
   return axios.put(`${baseUrl}/${id}`, updatedBlog)
 }
 
-export default { getAll, create, setToken, addLike }
+const removeBlog = (blogId) => {
+  return axios.delete(`${baseUrl}/${blogId}`)
+}
+
+export default { getAll, create, setToken, addLike, removeBlog }

@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+
 // Components
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+
 // Services
 import blogService from './services/blogs'
 import loginService from './services/login'
-
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -101,6 +103,7 @@ const App = () => {
   )
   // -----------------------
 
+
   // Rendering
   if (user === null) {
     return (
@@ -117,8 +120,8 @@ const App = () => {
       </div>
 
       <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog}/>
+      {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+        <Blog key={blog.id} blog={blog} user={user}/>
       )}
 
       <button onClick={logoutFunction}>Logout</button>

@@ -1,7 +1,7 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user }) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -19,14 +19,18 @@ const Blog = ({ blog }) => {
     setVisible(!visible)
   }
 
-  const likeFunction = () => {
-    const blogId = blog.id
-    const updatedBlog = blog
-    updatedBlog.likes =+ 1
+  const deleteFunction = () => {
+    window.confirm("are you sure")
+    blogService.removeBlog(blog.id)
+  }
 
-    console.log(blogId, blog)
+  const likeFunction = () => {
+    const updatedBlog = blog
+    updatedBlog.likes += 1
+    console.log(blog.id, blog)
+    console.log(user)
     
-    blogService.addLike(blogId, updatedBlog)
+    blogService.addLike(blog.id, updatedBlog)
   }
   
   return (
@@ -39,6 +43,7 @@ const Blog = ({ blog }) => {
           {blog.content} <button onClick={toggleVisibility}>Close</button>
           <p>Author: {blog.user.name}</p>
           <p>Likes: {blog.likes} <button onClick={likeFunction}>like</button></p> 
+          <button onClick={deleteFunction}>Delete</button>
         </div>
       </div>  
     </div>
