@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Blogform = ({ createBlog }) => {
+const Blogform = ({ createBlog, user }) => {
     const [newBlog, setNewBlog] = useState('')
 
     const addBlog = (event) => {
@@ -8,7 +8,10 @@ const Blogform = ({ createBlog }) => {
       createBlog({
         content: newBlog,
         likes: 0,
-        important: true
+        important: true,
+        user: {
+          name: user.name
+        }
       })
   
       setNewBlog('')

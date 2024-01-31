@@ -27,14 +27,12 @@ const Blog = ({ blog, user }) => {
   const likeFunction = () => {
     const updatedBlog = blog
     updatedBlog.likes += 1
-    console.log(blog.id, blog)
-    console.log(user)
     
     blogService.addLike(blog.id, updatedBlog)
   }
   
   return (
-    <div>
+    <div className='blog'>
       <div style={hideWhenVisible}>
         {blog.content} <button onClick={toggleVisibility}>View</button>
       </div>

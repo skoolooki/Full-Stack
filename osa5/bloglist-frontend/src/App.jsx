@@ -91,14 +91,14 @@ const App = () => {
   const addBlog = (blogObject) => {
     blogService.create(blogObject).then(returnedBlog => {
         console.log(returnedBlog)
-        setBlogs(blogs.concat(returnedBlog))
+        setBlogs(blogs.concat(blogObject))
         setNewBlog('')
     })
   }
 
   const blogForm = () => (
     <Togglable buttonLabel="Create new blog">
-      <BlogForm createBlog={addBlog}/>
+      <BlogForm createBlog={addBlog} user={user}/>
     </Togglable>
   )
   // -----------------------
