@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user}) => {
   const [visible, setVisible] = useState(false)
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
+
+  const label = visible ? "Close" : "View"
 
   const blogInfoStyle = {
     paddingTop: 10,
@@ -34,11 +36,11 @@ const Blog = ({ blog, user }) => {
   return (
     <div className='blog'>
       <div style={hideWhenVisible}>
-        {blog.content} <button onClick={toggleVisibility}>View</button>
+        {blog.content} <button onClick={toggleVisibility}>{label}</button>
       </div>
       <div style={showWhenVisible}>
         <div style={blogInfoStyle}>
-          {blog.content} <button onClick={toggleVisibility}>Close</button>
+          {blog.content} <button onClick={toggleVisibility}>{label}</button>
           <p>Author: {blog.user.name}</p>
           <p>Likes: {blog.likes} <button onClick={likeFunction}>like</button></p> 
           <button onClick={deleteFunction}>Delete</button>
