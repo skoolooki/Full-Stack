@@ -22,7 +22,6 @@ const Blog = ({ blog, user}) => {
   }
 
   const deleteFunction = () => {
-    window.confirm("are you sure")
     blogService.removeBlog(blog.id)
   }
 
@@ -36,7 +35,7 @@ const Blog = ({ blog, user}) => {
   return (
     <div className='blog'>
       <div style={hideWhenVisible}>
-        {blog.content} <button onClick={toggleVisibility}>{label}</button>
+        <span>{blog.content}</span> <button onClick={toggleVisibility}>{label}</button>
       </div>
       <div style={showWhenVisible}>
         <div style={blogInfoStyle}>
